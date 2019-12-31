@@ -98,7 +98,7 @@ defmodule HoloceneCalendarTest do
     end
   end
 
-  describe "naive_datetime_from_iso_days/7" do
+  describe "naive_datetime_to_iso_days/7" do
     test "delegates to ISO calendar with 10,000 years difference" do
       assert HoloceneCalendar.naive_datetime_to_iso_days(1, 1, 1, 0, 0, 0, {0, 6}) ==
                {-3_652_059, {0, 86_400_000_000}}
@@ -111,6 +111,59 @@ defmodule HoloceneCalendarTest do
 
       assert HoloceneCalendar.naive_datetime_to_iso_days(9999, 1, 1, 0, 0, 0, {0, 6}) ==
                {-365, {0, 86_400_000_000}}
+    end
+  end
+
+  describe "naive_datetime_from_iso_days/1" do
+    test "delegates to ISO calendar with 10,000 years difference" do
+      assert HoloceneCalendar.naive_datetime_from_iso_days({0, {0, 86400}}) ==
+               {10_000, 1, 1, 0, 0, 0, {0, 6}}
+
+      assert HoloceneCalendar.naive_datetime_from_iso_days({730_485, {0, 86400}}) ==
+               {12_000, 1, 1, 0, 0, 0, {0, 6}}
+
+      assert HoloceneCalendar.naive_datetime_from_iso_days({730_485, {43200, 86400}}) ==
+               {12_000, 1, 1, 12, 0, 0, {0, 6}}
+
+      assert HoloceneCalendar.naive_datetime_from_iso_days({-365, {0, 86_400_000_000}}) ==
+               {9999, 1, 1, 0, 0, 0, {0, 6}}
+    end
+  end
+
+  describe "valid_date?/3" do
+    test "delegates to ISO calendar with 10,000 years difference" do
+      assert HoloceneCalendar.valid_date?(12015, 2, 28) == true
+      assert HoloceneCalendar.valid_date?(12015, 2, 30) == false
+      assert HoloceneCalendar.valid_date?(1, 12, 31) == true
+      assert HoloceneCalendar.valid_date?(1, 12, 32) == false
+    end
+  end
+
+  describe "quarter_of_year/3" do
+    test "delegates to ISO calendar with 10,000 years difference" do
+      assert HoloceneCalendar.quarter_of_year(12_016, 1, 31) == 1
+      assert HoloceneCalendar.quarter_of_year(12_016, 4, 3) == 2
+      assert HoloceneCalendar.quarter_of_year(1, 9, 31) == 3
+      assert HoloceneCalendar.quarter_of_year(12_018, 12, 28) == 4
+    end
+  end
+
+  describe "year_of_era/1" do
+    test "always returns the era 0 with the year" do
+      assert HoloceneCalendar.year_of_era(1) == {1, 0}
+      assert HoloceneCalendar.year_of_era(12_020) == {12_020, 0}
+    end
+  end
+
+  describe "day_of_era/3" do
+    test "before 10,000 HE" do
+      assert HoloceneCalendar.day_of_era(1, 1, 1) == {1, 0}
+      assert HoloceneCalendar.day_of_era(9999, 12, 31) == {3_652_059, 0}
+    end
+
+    test "after 10,000 HE" do
+      assert HoloceneCalendar.day_of_era(10_000, 1, 1) == {3_652_060, 0}
+      assert HoloceneCalendar.day_of_era(12_020, 5, 28) == {4_389_998, 0}
     end
   end
 end
