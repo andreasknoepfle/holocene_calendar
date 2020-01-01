@@ -168,7 +168,7 @@ defmodule HoloceneCalendar do
 
   @spec year_of_era(year) :: {year, era}
   @impl true
-  def year_of_era(year) when is_integer(year) and year >= 0, do: {year, 0}
+  def year_of_era(year), do: {year, 0}
 
   @impl true
   @spec day_of_era(year, ISO.month(), ISO.day()) :: {day :: pos_integer(), era}

@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/andreasknoepfle/holocene_calendar.svg?style=svg)](https://circleci.com/gh/andreasknoepfle/holocene_calendar)
 # HoloceneCalendar
 
 This is a elixir implementation of the [holocene calendar](https://en.wikipedia.org/wiki/Holocene_calendar),
@@ -20,13 +21,13 @@ end
 ## Usage
 
 Converting a `Date` from the ISO calendar implementation to the holocene calendar:
-```
+```elixir
 iex> ~D[2019-01-01] |> Date.convert(HoloceneCalendar)
 {:ok, %Date{calendar: HoloceneCalendar, day: 1, month: 1, year: 12019}}
 ```
 
 Or use it directly:
-```
+```elixir
 iex> %Date{calendar: HoloceneCalendar, day: 1, month: 1, year: 12019} |> Date.to_string
 "12019-01-01"
 ```
