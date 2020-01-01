@@ -9,7 +9,9 @@ defmodule HoloceneCalendar.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: "A holocene calendar implementation.",
+      package: package()
     ]
   end
 
@@ -17,6 +19,13 @@ defmodule HoloceneCalendar.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{github: "https://github.com/andreasknoepfle/holocene_calendar"}
     ]
   end
 
